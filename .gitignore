@@ -1,0 +1,18 @@
+# Computed caches
+results/*.npy
+
+# Figure outputs
+figures/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+
+# Data (large — distribute separately)
+data/
+
+# OS
+.DS_Store
+Thumbs.db
