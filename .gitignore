@@ -10,9 +10,6 @@ __pycache__/
 .venv/
 *.egg-info/
 
-# Data (large — distribute separately)
-data/
-
 # OS
 .DS_Store
 Thumbs.db

@@ -34,7 +34,7 @@ STATS_Project/
 └── results/                         # Output CSVs + cached distance matrices
 ```
 
-`data/` and `results/*.npy` are excluded from git (see `.gitignore`). Anyone cloning the repo must obtain the data separately and will recompute distance matrices on first run.
+`results/*.npy` (cached pairwise distance matrices) are excluded from git — they are recomputed automatically on first run and can be large.
 
 ## Tasks
 
