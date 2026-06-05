@@ -1,7 +1,7 @@
 metric,standardized,accuracy_mean,accuracy_std
-BW,False,0.9617,0.0092
-BW,True,0.9735,0.0087
-AI,False,0.9512,0.0129
-AI,True,0.9752,0.0052
-LOGE,False,0.9907,0.0034
-LOGE,True,0.9895,0.003
+BW,False,0.9697,0.0094
+BW,True,0.9739,0.0072
+AI,False,0.9545,0.0115
+AI,True,0.9789,0.006
+LOGE,False,0.995,0.0049
+LOGE,True,0.9907,0.0032
