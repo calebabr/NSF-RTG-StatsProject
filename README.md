@@ -1,6 +1,8 @@
 # KTH-TIPS2 SPD Geometry Analysis
 
-Compares SPD manifold geometries (AI, LogE, BW) and dimension reduction methods (PCA, UMAP) on image covariance descriptors from the KTH-TIPS2-b texture dataset. Part of the Auburn University NSF RTG statistics project.
+Compares SPD manifold geometries (AI, LogE, BW) and dimension reduction methods (PCA, UMAP) on image covariance descriptors from the KTH-TIPS2-b texture dataset.
+
+This project was developed as part of the **NSF Research Training Group (RTG) Internship on the Mathematical Foundations of AI and Data Science**, a collaboration between Auburn University and Tuskegee University. The internship ran May 18 -- June 14, 2026, with sessions held at Tuskegee University and a concluding workshop at Auburn University.
 
 ## Project pipeline
 
