@@ -74,6 +74,67 @@ Data leakage is prevented: barycenter, scaler, PCA/UMAP, and classifier are all 
 
 Output: `figures/task3_accuracy_heatmap.png`, `results/task3_classification_results.csv`
 
+## Results
+
+All results below were obtained on the `sample_a` subset (n = 1,188 images, 11 texture classes).
+
+### Dataset summary
+
+| Property | Value |
+|---|---|
+| Dataset | KTH-TIPS2-b |
+| Classes | 11 material textures |
+| Subset used | `sample_a` (n = 1,188) |
+| Matrix size | 22 × 22 SPD covariance matrices |
+| Feature dim (tangent) | 253 |
+
+### Task 1 — Manifold UMAP vs Tangent-Space UMAP
+
+| Geometry | Neighborhood Overlap (k=15) | Trustworthiness (Manifold) | Trustworthiness (Tangent) | Spearman ρ |
+|---|---|---|---|---|
+| BW | 0.8539 | 0.9796 | 0.9795 | 0.9429 |
+| AI | 0.4781 | 0.9929 | 0.9832 | 0.7118 |
+| LOGE | 0.9386 | 0.9885 | 0.9891 | 0.9956 |
+
+LogE shows the strongest agreement between manifold and tangent UMAP (ρ = 0.996, overlap = 0.94), meaning the tangent-space approximation is nearly lossless. AI shows the largest discrepancy (ρ = 0.71, overlap = 0.48), indicating the tangent projection distorts the AI manifold geometry more. All Spearman p-values are < 1e-6.
+
+### Task 2 — Raw vs Standardized Tangent Features (5-fold CV, KNN k=5)
+
+| Geometry | Raw Accuracy | Std Accuracy |
+|---|---|---|
+| BW | 96.97% ± 0.94% | 97.39% ± 0.72% |
+| AI | 95.45% ± 1.15% | 97.89% ± 0.60% |
+| LOGE | **99.50% ± 0.49%** | 99.07% ± 0.32% |
+
+Standardization helps AI (+2.4 pp) and BW (+0.4 pp) but slightly hurts LogE (−0.4 pp). LogE raw features are already well-scaled and achieve the highest diagnostic accuracy at 99.5%.
+
+### Task 3 — Nested CV Classification (5-outer / 3-inner folds, 54 combinations)
+
+Best accuracy per geometry × pipeline (max over standardization, classifier, and latent dim q):
+
+| Geometry | Pipeline A (full 253-d) | Pipeline B (PCA) | Pipeline C (UMAP) |
+|---|---|---|---|
+| AI | 99.75% | 98.99% | 95.87% |
+| BW | 99.66% | 99.16% | 94.78% |
+| LOGE | **99.92%** | 99.83% | 98.74% |
+
+**Top 5 configurations overall:**
+
+| Geometry | Pipeline | Std | Classifier | Accuracy | Precision | Recall | AUC |
+|---|---|---|---|---|---|---|---|
+| LOGE | A | Yes | LogReg | **99.92%** | 99.92% | 99.91% | 1.0000 |
+| LOGE | A | Yes | SVC | **99.92%** | 99.92% | 99.91% | 1.0000 |
+| LOGE | A | No | LogReg | 99.83% | 99.84% | 99.83% | 1.0000 |
+| LOGE | A | No | SVC | 99.83% | 99.84% | 99.83% | 1.0000 |
+| LOGE | B | No | SVC | 99.75% | 99.76% | 99.74% | 1.0000 |
+
+**Key findings:**
+- **LogE geometry dominates** — achieves the highest accuracy across all pipeline types and is also 10–100× faster to compute than BW or AI.
+- **Pipeline A (full tangent features) consistently outperforms PCA and UMAP reductions** — dimension reduction hurts when the feature space is only 253-d to begin with.
+- **SVC and LogReg outperform KNN** in nearly all configurations.
+- **UMAP-based Pipeline C is the weakest**, likely due to UMAP's stochastic nature and information loss at low q.
+- All top configurations achieve AUC ≥ 0.999, indicating near-perfect class separability on this subset.
+
 ## Setup
 
 ```bash
